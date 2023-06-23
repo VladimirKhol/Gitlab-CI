@@ -8,8 +8,6 @@ selenium-tests:
   image: maven:latest
   script:
     - mvn clean test
-  rules:
-    - exists(".gitlab/schedule.yml")
   only:
     refs:
       - schedules
