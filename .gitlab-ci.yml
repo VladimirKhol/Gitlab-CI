@@ -27,6 +27,7 @@ selenium_tests:
   stage: test
   services:
     - name: selenoid/chrome:latest
+    - name: docker:latest
     - name: aerokube/selenoid:latest-release
       alias: selenoid
   variables:
