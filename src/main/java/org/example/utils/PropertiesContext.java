@@ -1,8 +1,10 @@
 package org.example.utils;
 
+import com.codeborne.selenide.Configuration;
 import lombok.val;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 import static org.example.utils.MyLogger.getLogger;
@@ -28,6 +30,7 @@ public class PropertiesContext {
 
     private PropertiesContext() {
         init();
+        Configuration.remote = getProperty("selenoid.remote.url");
         System.getProperties().stringPropertyNames().forEach(p -> setProperty(p, System.getProperty(p)));
     }
 
@@ -41,21 +44,17 @@ public class PropertiesContext {
         return (String) generalMap.get(key);
     }
 
-    private void loadProperties(Properties props, String fileName) {
-        loadPropertiesFromClasspath(props, fileName);
+    private void loadProperties(Properties props, String fileName) throws IOException {
+        loadPropertiesFromClassPath(props, fileName);
 
     }
 
-    private void loadPropertiesFromClasspath(Properties props, String fileName) {
-        getLogger().info("Loading original properties for file " + fileName);
-        try {
-            val classLoader = getClass().getClassLoader();
-            val resourceAsStream = classLoader.getResourceAsStream(getFullFileName(fileName));
-            if (resourceAsStream != null) {
-                props.load(resourceAsStream);
-            }
-        } catch (IOException e) {
-            getLogger().info(e.getMessage());
+    private void loadPropertiesFromClassPath(Properties props, String fileName) throws IOException {
+        System.out.println("Loading original properties for file " + fileName);
+        ClassLoader classLoader = getClass().getClassLoader();
+        InputStream resourceAsStream = classLoader.getResourceAsStream(getFullFileName(fileName));
+        if (resourceAsStream != null) {
+            props.load(resourceAsStream);
         }
     }
 
@@ -64,8 +63,13 @@ public class PropertiesContext {
     }
 
     private void init() {
-        loadProperties(applicationMap, TEST);
-        loadProperties(testMap, APPLICATIONS_PROPERTIES);
+        try {
+            loadProperties(applicationMap, TEST);
+            loadProperties(testMap, APPLICATIONS_PROPERTIES);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
         generalMap.putAll(applicationMap);
         generalMap.putAll(testMap);
     }

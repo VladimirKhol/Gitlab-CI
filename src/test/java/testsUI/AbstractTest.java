@@ -4,6 +4,7 @@ import com.codeborne.selenide.WebDriverRunner;
 import io.qameta.allure.Step;
 import lombok.val;
 import org.example.utils.PropertiesContext;
+import org.example.utils.WebDriverWrapper;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
@@ -26,6 +27,7 @@ public abstract class AbstractTest {
 
     @BeforeMethod(alwaysRun = true)
     public void beforeMethod(ITestResult testResult, Object[] params) {
+        WebDriverWrapper.setWebDriver();
         updateTestDescription(testResult, params);
         getLogger().info("=== START TEST " + testResult.getMethod().getDescription() + " ====");
     }
@@ -35,6 +37,7 @@ public abstract class AbstractTest {
         getLogger().info("***TEST " + testResult.getMethod().getDescription() +
                 " Status: " + testResult.getStatus() + " TEST***");
         getLogger().info("===== END TEST " + testResult.getMethod().getDescription() + " =====");
+        WebDriverRunner.getWebDriver().quit();
     }
 
     private void updateTestDescription(ITestResult testResult, Object[] params) {

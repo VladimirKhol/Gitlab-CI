@@ -1,4 +1,4 @@
-package org.example.utils.pages;
+package org.example.pages;
 
 import io.qameta.allure.Step;
 import org.example.utils.PropertiesContext;

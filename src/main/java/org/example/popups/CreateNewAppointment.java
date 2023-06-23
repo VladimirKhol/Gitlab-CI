@@ -1,6 +1,5 @@
-package org.example.utils.popups;
+package org.example.popups;
 
-import com.codeborne.selenide.Condition;
 import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.enabled;

@@ -1,6 +1,6 @@
 package testsUI;
 
-import org.example.utils.pages.LoginPage;
+import org.example.pages.LoginPage;
 import org.testng.annotations.Test;
 
 public class NewAppointmentTest extends AbstractTest {
