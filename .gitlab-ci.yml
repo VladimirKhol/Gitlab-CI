@@ -1,9 +1,9 @@
 # .gitlab-ci.yml
 
 stages:
-  - before
+  # - before
   - test
-  - selenoid_stop
+  # - selenoid_stop
 
 before_script:
   - apt-get update
@@ -15,13 +15,13 @@ before_script:
 #   tags:
 #     - selenium-runner
 #   when: always
-before:
-  stage: before
-  tags:
-    - selenium-runner
-  script: 
-  - mkdir /etc/selenoid
-  - cp /builds/testname40425/ProjectTest/browsers.json /etc/selenoid/browsers.json
+# before:
+#   stage: before
+#   tags:
+#     - selenium-runner
+#   script: 
+#   - mkdir /etc/selenoid
+#   - cp /builds/testname40425/ProjectTest/browsers.json /etc/selenoid/browsers.json
 
 selenium_tests:
   stage: test
@@ -32,7 +32,11 @@ selenium_tests:
   variables:
     SELENOID_URL: http://selenoid:4444/wd/hub
   image: maven:latest
+
   script:
+    - mkdir /etc/selenoid
+    - cp /builds/testname40425/ProjectTest/browsers.json /etc/selenoid/browsers.json
+    - docker run -d --name selenoid -p 4444:4444 -v /etc/selenoid:/etc/selenoid:ro -v /var/run/docker.sock:/var/run/docker.sock aerokube/selenoid
     - mvn clean test -Dselenoid.remote.url=$SELENOID_URL
   only:
     refs:
@@ -41,10 +45,10 @@ selenium_tests:
     - selenium-runner
   when: always
 
-selenoid_stop:
-  stage: selenoid_stop
-  image: aerokube/selenoid:latest-release
-  script:
-    - selenoid stop
-  tags:
-    - selenium-runner
+# selenoid_stop:
+#   stage: selenoid_stop
+#   image: aerokube/selenoid:latest-release
+#   script:
+#     - selenoid stop
+#   tags:
+#     - selenium-runner
