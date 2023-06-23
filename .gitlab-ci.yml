@@ -1,33 +1,44 @@
 # .gitlab-ci.yml
 
 stages:
-  - selenoid_start
+  # - before
   - test
-  - selenoid_stop
+  # - selenoid_stop
 
 before_script:
   - apt-get update
-  - apt-get install -y libglib2.0-0 libnss3 libxcb1 wget
-  - cp /builds/testname40425/ProjectTest/browsers.json /etc/selenoid/browsers.json
+  - apt-get install -y libglib2.0-0 libnss3 libxcb1
 
-selenoid:
-  stage: selenoid_start
-  image: aerokube/selenoid:latest-release
-  script:
-    - selenoid start --vnc
-  tags:
-    - selenium-runner
+# selenoid:
+#   stage: selenoid_start
+#   image: aerokube/selenoid:latest-release
+#   tags:
+#     - selenium-runner
+#   when: always
+# before:
+#   stage: before
+#   tags:
+#     - selenium-runner
+#   script: 
+#   - mkdir /etc/selenoid
+#   - cp /builds/testname40425/ProjectTest/browsers.json /etc/selenoid/browsers.json
 
 selenium_tests:
   stage: test
   services:
+    - name: selenoid/chrome:latest
+    - name: docker:latest
     - name: aerokube/selenoid:latest-release
       alias: selenoid
   variables:
     SELENOID_URL: http://selenoid:4444/wd/hub
   image: maven:latest
+
   script:
-    - mvn clean test -Dselenoid.url=${SELENOID_URL}
+    - mkdir /etc/selenoid
+    - cp /builds/testname40425/ProjectTest/browsers.json /etc/selenoid/browsers.json
+    - docker run -d --name selenoid -p 4444:4444 -v /etc/selenoid:/etc/selenoid:ro -v /var/run/docker.sock:/var/run/docker.sock aerokube/selenoid
+    - mvn clean test -Dselenoid.remote.url=$SELENOID_URL
   only:
     refs:
       - schedules
@@ -35,10 +46,10 @@ selenium_tests:
     - selenium-runner
   when: always
 
-selenoid_stop:
-  stage: selenoid_stop
-  image: aerokube/selenoid:latest-release
-  script:
-    - selenoid stop
-  tags:
-    - selenium-runner
+# selenoid_stop:
+#   stage: selenoid_stop
+#   image: aerokube/selenoid:latest-release
+#   script:
+#     - selenoid stop
+#   tags:
+#     - selenium-runner
