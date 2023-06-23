@@ -14,6 +14,8 @@ test:
   script:
     - mvn $MAVEN_OPTS clean package
     - mvn compile test
+  tags:
+    - selenium-runner
  
 # Store artifacts
   artifacts:
