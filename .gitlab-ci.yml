@@ -26,13 +26,14 @@ before:
 selenium_tests:
   stage: test
   services:
+    - name: selenoid/chrome:latest
     - name: aerokube/selenoid:latest-release
       alias: selenoid
   variables:
     SELENOID_URL: http://selenoid:4444/wd/hub
   image: maven:latest
   script:
-    - mvn clean test -Dselenoid.remote.url=${SELENOID_URL}
+    - mvn clean test -Dselenoid.remote.url=$SELENOID_URL
   only:
     refs:
       - schedules
