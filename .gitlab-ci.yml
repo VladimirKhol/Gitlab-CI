@@ -13,6 +13,7 @@ selenoid:
   stage: selenoid_start
   image: aerokube/selenoid:latest-release
   script:
+    - apt-get update
     - apt-get install -y wget
     - wget https://gitlab.com/testname40425/ProjectTest/-/blob/main/browsers.json -O /etc/selenoid/browsers.json
     - selenoid start --vnc
