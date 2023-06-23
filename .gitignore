@@ -1,0 +1,10 @@
+target/
+allure-results/
+.idea/
+test-output/
+build/
+*.iws
+*.iml
+*.ipr
+.DS_Store
+
