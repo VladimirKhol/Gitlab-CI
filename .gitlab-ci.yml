@@ -12,10 +12,6 @@ before_script:
 selenoid:
   stage: selenoid_start
   image: aerokube/selenoid:latest-release
-  script:
-    - mkdir /etc/selenoid
-    - cp /builds/testname40425/ProjectTest/browsers.json /etc/selenoid/browsers.json
-    - selenoid start --vnc
   tags:
     - selenium-runner
   when: always
@@ -29,6 +25,9 @@ selenium_tests:
     SELENOID_URL: http://selenoid:4444/wd/hub
   image: maven:latest
   script:
+    - mkdir /etc/selenoid
+    - cp /builds/testname40425/ProjectTest/browsers.json /etc/selenoid/browsers.json
+    - selenoid start --vnc
     - mvn clean test -Dselenoid.url=${SELENOID_URL}
   only:
     refs:
