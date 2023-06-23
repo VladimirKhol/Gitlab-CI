@@ -1,0 +1,16 @@
+# .gitlab-ci.yml
+
+stages:
+  - selenium-tests
+
+selenium-tests:
+  stage: selenium-tests
+  image: maven:latest
+  script:
+    - mvn clean test
+  only:
+    variables:
+      - $CI_PIPELINE_SOURCE == "schedule"
+  tags:
+    - selenium-runner
+  when: always
