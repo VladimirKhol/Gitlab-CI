@@ -1,55 +1,24 @@
-# .gitlab-ci.yml
-
+image: markhobson/maven-chrome
+ 
 stages:
-  # - before
   - test
-  # - selenoid_stop
-
-before_script:
-  - apt-get update
-  - apt-get install -y libglib2.0-0 libnss3 libxcb1
-
-# selenoid:
-#   stage: selenoid_start
-#   image: aerokube/selenoid:latest-release
-#   tags:
-#     - selenium-runner
-#   when: always
-# before:
-#   stage: before
-#   tags:
-#     - selenium-runner
-#   script: 
-#   - mkdir /etc/selenoid
-#   - cp /builds/testname40425/ProjectTest/browsers.json /etc/selenoid/browsers.json
-
-selenium_tests:
+ 
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+ 
+test:
   stage: test
-  services:
-    - name: selenoid/chrome:latest
-    - name: docker:latest
-    - name: aerokube/selenoid:latest-release
-      alias: selenoid
-  variables:
-    SELENOID_URL: http://selenoid:4444/wd/hub
-  image: maven:latest
-
+  allow_failure: true
+ 
+# Run the tests  
   script:
-    - mkdir /etc/selenoid
-    - cp /builds/testname40425/ProjectTest/browsers.json /etc/selenoid/browsers.json
-    - docker run -d --name selenoid -p 4444:4444 -v /etc/selenoid:/etc/selenoid:ro -v /var/run/docker.sock:/var/run/docker.sock aerokube/selenoid
-    - mvn clean test -Dselenoid.remote.url=$SELENOID_URL
-  only:
-    refs:
-      - schedules
-  tags:
-    - selenium-runner
-  when: always
-
-# selenoid_stop:
-#   stage: selenoid_stop
-#   image: aerokube/selenoid:latest-release
-#   script:
-#     - selenoid stop
-#   tags:
-#     - selenium-runner
+    - mvn $MAVEN_OPTS clean package
+    - mvn compile test
+ 
+# Store artifacts
+  artifacts:
+    when: always
+    name: "report"
+    paths:
+    - target/surefire-reports/*
+    expire_in: 1 h
