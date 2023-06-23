@@ -21,39 +21,39 @@ import static java.lang.Boolean.parseBoolean;
 public class WebDriverWrapper {
     private static final PropertiesContext context = PropertiesContext.getInstance();
 
-    public static void setWebDriver() {
-        HashMap<String, Object> chromeOptionsMap = new HashMap<>();
-        ChromeOptions options = new ChromeOptions();
-        options.setExperimentalOption("prefs", chromeOptionsMap);
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--ignore-certificate-errors");
-        options.setCapability("selenoid:options", new HashMap<String, Object>() {{
-            put("enableVNC", true);
-            put("enableVideo", parseBoolean(PropertiesContext.getInstance().getProperty("selenoid.video")));
-        }});
-        RemoteWebDriver driver = null;
-        try {
-            driver = new RemoteWebDriver(new URL(Configuration.remote), options);
-            System.out.println(driver.getSessionId());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        assert driver != null;
-        driver.setFileDetector(new LocalFileDetector());
-        setWindowSize(driver);
-        WebDriverRunner.setWebDriver(driver);
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
-                .screenshots(true)
-                .savePageSource(true));
-    }
-
-    public static void setWindowSize(WebDriver driver) {
-        Dimension windowSize = driver.manage().window().getSize();
-        WebElement html = driver.findElement(By.tagName("html"));
-        int innerWidth = Integer.parseInt(html.getAttribute("clientWidth"));
-        int innerHeight = Integer.parseInt(html.getAttribute("clientHeight"));
-        driver.manage().window().setSize(new Dimension(
-                windowSize.getWidth() - innerWidth + Integer.parseInt(context.getProperty("browser.width")),
-                windowSize.getHeight() - innerHeight + Integer.parseInt(context.getProperty("browser.height"))));
-    }
+//    public static void setWebDriver() {
+//        HashMap<String, Object> chromeOptionsMap = new HashMap<>();
+//        ChromeOptions options = new ChromeOptions();
+//        options.setExperimentalOption("prefs", chromeOptionsMap);
+//        options.addArguments("--disable-dev-shm-usage");
+//        options.addArguments("--ignore-certificate-errors");
+//        options.setCapability("selenoid:options", new HashMap<String, Object>() {{
+//            put("enableVNC", true);
+//            put("enableVideo", parseBoolean(PropertiesContext.getInstance().getProperty("selenoid.video")));
+//        }});
+//        RemoteWebDriver driver = null;
+//        try {
+//            driver = new RemoteWebDriver(new URL(Configuration.remote), options);
+//            System.out.println(driver.getSessionId());
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
+//        assert driver != null;
+//        driver.setFileDetector(new LocalFileDetector());
+//        setWindowSize(driver);
+//        WebDriverRunner.setWebDriver(driver);
+//        SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
+//                .screenshots(true)
+//                .savePageSource(true));
+//    }
+//
+//    public static void setWindowSize(WebDriver driver) {
+//        Dimension windowSize = driver.manage().window().getSize();
+//        WebElement html = driver.findElement(By.tagName("html"));
+//        int innerWidth = Integer.parseInt(html.getAttribute("clientWidth"));
+//        int innerHeight = Integer.parseInt(html.getAttribute("clientHeight"));
+//        driver.manage().window().setSize(new Dimension(
+//                windowSize.getWidth() - innerWidth + Integer.parseInt(context.getProperty("browser.width")),
+//                windowSize.getHeight() - innerHeight + Integer.parseInt(context.getProperty("browser.height"))));
+//    }
 }
