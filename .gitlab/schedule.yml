@@ -1,0 +1,2 @@
+selenium-tests:
+  cron: "0 0 * * *"

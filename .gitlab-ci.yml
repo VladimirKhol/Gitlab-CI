@@ -8,9 +8,11 @@ selenium-tests:
   image: maven:latest
   script:
     - mvn clean test
+  rules:
+    - exists(".gitlab/schedule.yml")
   only:
-    variables:
-      - $CI_PIPELINE_SOURCE == "schedule"
+    refs:
+      - schedules
   tags:
     - selenium-runner
   when: always
