@@ -1,13 +1,9 @@
 package org.example.utils;
 
-import com.codeborne.selenide.Configuration;
 import lombok.val;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
-
-import static org.example.utils.MyLogger.getLogger;
 
 /**
  * The primary purpose of this class is to allow access to the properties
@@ -30,7 +26,7 @@ public class PropertiesContext {
 
     private PropertiesContext() {
         init();
-        Configuration.remote = getProperty("selenoid.remote.url");
+        //Configuration.remote = getProperty("selenoid.remote.url");
         System.getProperties().stringPropertyNames().forEach(p -> setProperty(p, System.getProperty(p)));
     }
 
@@ -50,9 +46,9 @@ public class PropertiesContext {
     }
 
     private void loadPropertiesFromClassPath(Properties props, String fileName) throws IOException {
-        System.out.println("Loading original properties for file " + fileName);
-        ClassLoader classLoader = getClass().getClassLoader();
-        InputStream resourceAsStream = classLoader.getResourceAsStream(getFullFileName(fileName));
+        MyLogger.getLogger().info("Loading original properties for file " + fileName);
+        val classLoader = getClass().getClassLoader();
+        val resourceAsStream = classLoader.getResourceAsStream(getFullFileName(fileName));
         if (resourceAsStream != null) {
             props.load(resourceAsStream);
         }
