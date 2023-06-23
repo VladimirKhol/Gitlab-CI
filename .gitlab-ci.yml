@@ -1,7 +1,21 @@
 # .gitlab-ci.yml
 
 stages:
+  - selenoid_start
   - test
+  - selenoid_stop
+
+before_script:
+  - apt-get update
+  - apt-get install -y libglib2.0-0 libnss3 libxcb1
+
+selenoid:
+  stage: selenoid_start
+  image: aerokube/selenoid:latest-release
+  script:
+    - selenoid start --vnc
+  tags:
+    - selenium-runner
 
 selenium_tests:
   stage: test
@@ -19,3 +33,11 @@ selenium_tests:
   tags:
     - selenium-runner
   when: always
+
+selenoid_stop:
+  stage: selenoid_stop
+  image: aerokube/selenoid:latest-release
+  script:
+    - selenoid stop
+  tags:
+    - selenium-runner
