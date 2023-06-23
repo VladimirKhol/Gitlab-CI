@@ -7,16 +7,18 @@ stages:
 
 before_script:
   - apt-get update
-  - apt-get install -y libglib2.0-0 libnss3 libxcb1 wget
-  - cp /builds/testname40425/ProjectTest/browsers.json /etc/selenoid/browsers.json
+  - apt-get install -y libglib2.0-0 libnss3 libxcb1
 
 selenoid:
   stage: selenoid_start
   image: aerokube/selenoid:latest-release
   script:
+    - mkdir /etc/selenoid
+    - cp /builds/testname40425/ProjectTest/browsers.json /etc/selenoid/browsers.json
     - selenoid start --vnc
   tags:
     - selenium-runner
+  when: always
 
 selenium_tests:
   stage: test
