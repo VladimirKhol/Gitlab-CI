@@ -5,7 +5,7 @@ stages:
 
 before_script:
   - apt-get update
-  - apt-get install -y libglib2.0-0 libnss3
+  - apt-get install -y libglib2.0-0 libnss3 libxcb
 
 selenium_tests:
   stage: test
