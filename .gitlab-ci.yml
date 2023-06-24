@@ -5,6 +5,14 @@ stages:
  
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+
+before_script:
+  - apt-get update -qy
+  - apt-get -y install zip unzip wget
+  - mkdir /etc/project
+  - cd ~/etc/project
+  - wget https://chromedriver.storage.googleapis.com/102.0.5005.27/chromedriver_linux64.zip
+  - unzip chromedriver_linux64.zip -d '/etc/project'
  
 test:
   stage: test
