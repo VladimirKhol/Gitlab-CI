@@ -1,23 +1,23 @@
 image: markhobson/maven-chrome
  
 stages:
-  - test
+  - ui-test
  
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
 
-before_script:
-  - apt-get update -qy
-  - apt-get -y install zip unzip wget
-  - mkdir chromeBrowser
-  - echo 'VERSION OS'
-  - sw_vers
-  - cd chromeBrowser
-  - wget https://chromedriver.storage.googleapis.com/102.0.5005.27/chromedriver_linux64.zip
-  - unzip chromedriver_linux64.zip -d '/chromeBrowser'
+# before_script:
+#   - apt-get update -qy
+#   - apt-get -y install zip unzip wget
+#   - mkdir chromeBrowser
+#   - cd chromeBrowser
+#   - wget https://chromedriver.storage.googleapis.com/102.0.5005.27/chromedriver_linux64.zip
+#   - unzip chromedriver_linux64.zip -d '/chromeBrowser'
  
-test:
-  stage: test
+ui-test:
+  stage: ui-test
+  services:
+    - name: selenium/standalone-chrome:latest 
   allow_failure: true
  
 # Run the tests  
