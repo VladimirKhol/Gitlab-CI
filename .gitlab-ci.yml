@@ -9,11 +9,10 @@ variables:
 before_script:
   - apt-get update -qy
   - apt-get -y install zip unzip wget
-  - ls
-  - mkdir /etc/project
-  - cd ~/etc/project
+  - mkdir chromeBrowser
+  - cd chromeBrowser
   - wget https://chromedriver.storage.googleapis.com/102.0.5005.27/chromedriver_linux64.zip
-  - unzip chromedriver_linux64.zip -d '/etc/project'
+  - unzip chromedriver_linux64.zip -d '/chromeBrowser'
  
 test:
   stage: test
