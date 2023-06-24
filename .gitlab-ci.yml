@@ -13,7 +13,7 @@ test:
 # Run the tests  
   script:
     - mvn $MAVEN_OPTS clean package
-    - mvn compile test
+    - mvn clean test -Dselenide.headless=true
  
 # Store artifacts
   artifacts:
