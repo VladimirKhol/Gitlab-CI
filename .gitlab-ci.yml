@@ -5,19 +5,12 @@ stages:
  
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
-
-# before_script:
-#   - apt-get update -qy
-#   - apt-get -y install zip unzip wget
-#   - mkdir chromeBrowser
-#   - cd chromeBrowser
-#   - wget https://chromedriver.storage.googleapis.com/102.0.5005.27/chromedriver_linux64.zip
-#   - unzip chromedriver_linux64.zip -d '/chromeBrowser'
  
 ui-test:
   stage: ui-test
   services:
     - name: selenium/standalone-chrome:latest 
+      alias: chrome
   allow_failure: true
  
 # Run the tests  
