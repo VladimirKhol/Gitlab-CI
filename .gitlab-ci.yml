@@ -1,22 +1,21 @@
-image: markhobson/maven-chrome
-
 stages:
   - Test
   - Report
 
 Test:
   stage: Test
+  image: markhobson/maven-chrome
   allow_failure: true
   services:
     - name: selenium/standalone-chrome:latest
       alias: chrome
   script:
     - mvn clean test -Dsurefire.suiteXmlFiles=testng.xml
-  artifacts:
-    when: always
-    paths:
-      - allure-report
-    expire_in: 1 h
+  # artifacts:
+  #   when: always
+  #   paths:
+  #     - allure-report
+  #   expire_in: 1 h
 
 Report:
   stage: Report
