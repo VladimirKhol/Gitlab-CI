@@ -11,7 +11,7 @@ Test:
       alias: chrome
   script:
     - mvn clean test -Dsurefire.suiteXmlFiles=testng.xml
-    - mvn allure:report
+    - mvn allure:serve
     - mkdir public
     - mv target/allure-report/* public
   artifacts:
