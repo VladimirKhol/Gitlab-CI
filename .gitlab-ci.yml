@@ -2,7 +2,7 @@ image: markhobson/maven-chrome
  
 stages:
   - Test
-  - Generate-allure-report
+  - Report
 
 Test:
   stage: Test
@@ -11,31 +11,23 @@ Test:
     - name: selenium/standalone-chrome:latest
       alias: chrome
   script:
-    - mvn clean test -Dsurefire.suiteXmlFiles=testng.xml
-    # - mvn allure:report
-    # - mkdir public
-    # - mv target/allure-report/* public
-  artifacts:
-    when: always
-    paths:
-      - allure-results
-    expire_in: 1 h
-
-Generate-allure-result:
-  stage: Generate-allure-report
-  image: pradapjackie/allure-reports-generation:1.0
-  artifacts:
-    paths:
-     - allure-results
-     - allure-report
-    when: always
-    expire_in: 1 days
-  script:
-    - apt-get install libc-bin sudo -y
-    - sudo apt-get update
-    - sudo apt-get upgrade
-    - sudo apt-get install maven -y
+    # - mvn clean test -Dsurefire.suiteXmlFiles=testng.xml
+    - mvn clean install
     - mvn allure:report
-  allow_failure: true
-  rules:
-   - when: always
+  artifacts:
+    when: always
+    paths:
+      - target/allure-report
+    expire_in: 1 h
+Report:
+  stage: Report
+  only:
+    - master
+  script:
+    - mkdir public
+    - mv target/allure-report/* public
+  artifacts:
+    when: always
+    paths:
+      - public
+    expire_in: 1 h
