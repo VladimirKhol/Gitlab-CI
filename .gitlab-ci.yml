@@ -29,6 +29,5 @@ Report:
     expire_in: 1 h
   script:
    - allure generate target/allure-results --clean -o allure-report
-   - echo 'Allure report lives here https://${CI_PAGES_DOMAIN}/testname40425/${CI_PROJECT_NAME}/-/jobs/${CI_JOB_ID}/artifacts/browse/allure-report/index.html'
   when: always
   allow_failure: true
