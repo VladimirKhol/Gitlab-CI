@@ -1,10 +1,10 @@
-#target/
+target/
 .idea/
 .allure/
 test-output/
 build/
-*.iws
+*.log
 *.iml
-*.ipr
+*.jar
 .DS_Store
 
