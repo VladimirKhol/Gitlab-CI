@@ -1,6 +1,5 @@
 package org.example.pages;
 
-import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import org.example.popups.appointment.CreateNewAppointmentPopup;
 

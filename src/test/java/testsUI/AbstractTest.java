@@ -1,6 +1,5 @@
 package testsUI;
 
-import com.codeborne.selenide.Selenide;
 import lombok.val;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.ITestResult;
@@ -19,7 +18,6 @@ public abstract class AbstractTest {
 
     @BeforeClass
     public void setDriverCapabilities() {
-        Selenide.clearBrowserCookies();
         setCapabilities();
     }
 
