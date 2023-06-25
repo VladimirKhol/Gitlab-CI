@@ -2,8 +2,6 @@ image: markhobson/maven-chrome
  
 stages:
   - test
-variables:
-  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
 
 Integration tests with Allure:
   stage: test
@@ -12,7 +10,6 @@ Integration tests with Allure:
       alias: chrome
   allow_failure: true
   script:
-    - mvn $MAVEN_OPTS clean package
     - mvn clean test -Dsurefire.suiteXmlFiles=testng.xml
     - mvn allure:serve
   artifacts:
