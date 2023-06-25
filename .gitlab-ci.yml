@@ -20,7 +20,7 @@ Allure report:
   stage: allure
   script: 
     - mvn allure:serve
-    - ls target/
+    - ls target/site/
   artifacts:
     paths:
       - target/allure-results/*
