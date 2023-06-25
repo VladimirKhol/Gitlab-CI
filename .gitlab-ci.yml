@@ -15,7 +15,7 @@ Test:
   artifacts:
     when: always
     paths:
-      - target/allure-result
+      - MechanicAdvisor/target/allure-result
 Allure report:
   stage: allure
   script: 
