@@ -11,11 +11,26 @@ Test:
       alias: chrome
   script:
     - mvn clean test -Dsurefire.suiteXmlFiles=testng.xml
-    - mvn allure:report
-    - mkdir public
-    - mv target/allure-report/* public
+    # - mvn allure:report
+    # - mkdir public
+    # - mv target/allure-report/* public
   artifacts:
     when: always
     paths:
-      - public
+      - target/allure-results
     expire_in: 1 h
+
+Generate-allure-result:
+  stage: generate-allure-report
+  image: pradapjackie/allure-reports-generation:1.0
+  artifacts:
+    paths:
+     - target/allure-results
+     - target/allure-report
+    when: always
+    expire_in: 1 days
+  script:
+    - mvn allure:report
+  allow_failure: true
+  rules:
+   - when: always
