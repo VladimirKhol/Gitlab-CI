@@ -1,25 +1,51 @@
 package testsUI;
 
-import com.codeborne.selenide.Condition;
+import lombok.val;
 import org.example.pages.LoginPage;
+import org.example.popups.appointment.CreateNewAppointmentPopup;
+import org.example.popups.appointment.DatePickerPopup;
 import org.testng.annotations.Test;
 
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import java.time.LocalDate;
 
 public class NewAppointmentTest extends AbstractTest {
-    @Test(description = "")
-    public void test() {
-        openApp();
+    final String TITLE = "Title " + getRandomString();
+
+    @Test(description = "e2e. Create a new Appointment and verify in Calendar")
+    public void createAppointmentTest() {
+        val customer = "Abigale Spencer";
+        val day = LocalDate.now().getDayOfMonth() + 1;
         new LoginPage()
                 .enterEmail()
                 .enterPassword()
-                .logIn();
+                .logIn()
+                .selectNewAppointment()
+                .setTitle(TITLE)
+                .selectType(CreateNewAppointmentPopup.AppointmentType.NONE)
+                .selectCustomer(customer)
+                .selectStatus(CreateNewAppointmentPopup.StatusType.REQUEST_MADE)
+                .setDateAndTime(day, day, DatePickerPopup.Time.TWELVE_PM, DatePickerPopup.Time.ONE_PM)
+                .details("The meeting was scheduled")
+                .create()
+                .goToCalendar()
+                .checkAppointmentDetailsByTitle(TITLE, customer, ", 12pm")
+                .mainPage()
+                .logOut();
     }
 
-    @Test
-    public void test2() {
-        open("https://www.google.com/");
-        $("[alt='Google']").shouldBe(Condition.exist);
+    @Test(description = "e2e. Decline appointment and verify in Calendar", dependsOnMethods = {"createAppointmentTest"})
+    public void declineAppointmentTest() {
+        new LoginPage()
+                .enterEmail()
+                .enterPassword()
+                .logIn()
+                .goToScheduler()
+                .declineAppointment(TITLE)
+                .confirmDecline()
+                .mainPage()
+                .goToCalendar()
+                .isAppointmentByTitleExists(TITLE, false)
+                .mainPage()
+                .logOut();
     }
 }

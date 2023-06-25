@@ -1,47 +1,30 @@
 package testsUI;
 
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.WebDriverRunner;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import io.qameta.allure.Step;
+import com.codeborne.selenide.Selenide;
 import lombok.val;
-import org.example.utils.PropertiesContext;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
-import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.codeborne.selenide.Selenide.open;
+import static org.example.utils.DriverUtil.setCapabilities;
 import static org.example.utils.MyLogger.getLogger;
 
 public abstract class AbstractTest {
-    private static Map<String, String> testDescriptions = new HashMap<>();
-    protected static PropertiesContext context = PropertiesContext.getInstance();
+    private static Map<String, String> testDescription = new HashMap<>();
 
     @BeforeClass
-    public void setHeadless() {
-        Configuration.headless = true;
-    }
-
-    @Step("Open application")
-    public void openApp() {
-        Configuration.browserCapabilities.setCapability("acceptInsecureCerts", true);
-        open(context.getProperty("app.url"));
+    public void setDriverCapabilities() {
+        Selenide.clearBrowserCookies();
+        setCapabilities();
     }
 
     @BeforeMethod(alwaysRun = true)
     public void beforeMethod(ITestResult testResult, Object[] params) {
-        //WebDriverWrapper.setWebDriver();
         updateTestDescription(testResult, params);
         getLogger().info("=== START TEST " + testResult.getMethod().getDescription() + " ====");
     }
@@ -51,7 +34,10 @@ public abstract class AbstractTest {
         getLogger().info("***TEST " + testResult.getMethod().getDescription() +
                 " Status: " + testResult.getStatus() + " TEST***");
         getLogger().info("===== END TEST " + testResult.getMethod().getDescription() + " =====");
-        //WebDriverRunner.getWebDriver().quit();
+    }
+
+    protected String getRandomString() {
+        return RandomStringUtils.random(5, true, false);
     }
 
     private void updateTestDescription(ITestResult testResult, Object[] params) {
@@ -59,9 +45,9 @@ public abstract class AbstractTest {
         if (testResult.getMethod().getDescription() != null)
             testResult.getMethod().setDescription(testResult.getMethod().getDescription());
         if (testResult.getMethod().getDescription() != null && testResult.getMethod().getDescription().matches("(?i).*\\{\\d\\}.*"))
-            testDescriptions.put(testName, testResult.getMethod().getDescription());
-        if (testDescriptions.containsKey(testName)) {
-            String newDescription = testDescriptions.get(testName);
+            testDescription.put(testName, testResult.getMethod().getDescription());
+        if (testDescription.containsKey(testName)) {
+            String newDescription = testDescription.get(testName);
             for (int i = 0; i < params.length; i++) {
                 newDescription = newDescription.replace("{" + i + "}", "" + (params[i]));
             }
