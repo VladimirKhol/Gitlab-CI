@@ -12,11 +12,11 @@ Test:
   script:
     - mvn clean test -Dsurefire.suiteXmlFiles=testng.xml
     - mvn allure:report
-  artifacts:
-    when: always
-    paths:
-      - target/allure-results
-    expire_in: 1 h
+  # artifacts:
+  #   when: always
+  #   paths:
+  #     - target/allure-results
+  #   expire_in: 1 h
 
 Report:
   stage: Report
