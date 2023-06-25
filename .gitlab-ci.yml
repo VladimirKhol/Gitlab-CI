@@ -21,9 +21,6 @@ Test:
       - allure-results
     expire_in: 1 h
 
-before_script:    
-- export MAVEN_HOME=/usr/local/apache-maven
-
 Generate-allure-result:
   stage: Generate-allure-report
   image: pradapjackie/allure-reports-generation:1.0
@@ -34,7 +31,9 @@ Generate-allure-result:
     when: always
     expire_in: 1 days
   script:
-    - $MAVEN_HOME/bin/mvn clean
+    - sudo apt-get update
+    - sudo apt-get upgrade
+    - sudo apt-get install maven -y
     - mvn allure:report
   allow_failure: true
   rules:
