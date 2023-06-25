@@ -13,8 +13,5 @@ Integration tests with Allure:
     - mvn clean test -Dsurefire.suiteXmlFiles=testng.xml
     - mvn allure:serve
   artifacts:
-    when: always
-    name: "Report"
     paths:
       - target/surefire-reports/*
-    expire_in: 1 h
