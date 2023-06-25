@@ -1,10 +1,11 @@
+image: markhobson/maven-chrome
+
 stages:
   - Test
   - Report
 
 Test:
   stage: Test
-  image: markhobson/maven-chrome
   allow_failure: true
   services:
     - name: selenium/standalone-chrome:latest
