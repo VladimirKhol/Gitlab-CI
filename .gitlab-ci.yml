@@ -22,6 +22,6 @@ Allure report:
     - mvn allure:serve
   artifacts:
     paths:
-      - target/surefire-reports/*
+      - ~/target/surefire-reports/*
     when: always
     expire_in: 1 h
