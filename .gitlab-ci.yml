@@ -21,15 +21,14 @@ Test:
 Report:
   stage: Report
   image: pradapjackie/allure-reports-generation:1.0
-  script:
-    - mvn allure:report
-    - ls
-    - mkdir public
-    - echo 'List after public'
-    - ls
-    - mv allure-report/* public
   artifacts:
     when: always
     paths:
-      - public
+     - allure-results
+     - allure-report
     expire_in: 1 h
+  script:
+   - allure generate allure-results — clean -o allure-report
+  allow_failure: true
+  rules:
+   - when: always
