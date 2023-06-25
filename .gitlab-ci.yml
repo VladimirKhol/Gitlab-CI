@@ -11,7 +11,7 @@ Test:
       alias: chrome
   script:
     - mvn clean test -Dsurefire.suiteXmlFiles=testng.xml
-    - mvn allure:serve
+    - mvn allure:report
   artifacts:
     when: always
     paths:
