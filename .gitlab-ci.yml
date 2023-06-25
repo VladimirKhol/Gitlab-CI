@@ -12,10 +12,10 @@ Test:
       alias: chrome
   script:
     - mvn clean test -Dsurefire.suiteXmlFiles=testng.xml
-  # artifacts:
-  #   when: always
-  #   paths:
-  #     - target/allure-result
+  artifacts:
+    when: always
+    paths:
+      - target/site/allure-maven-plugin
 Allure report:
   stage: allure
   script:
