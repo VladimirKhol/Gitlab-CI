@@ -27,7 +27,6 @@ Report:
      - allure-report
     expire_in: 1 h
   script:
-   - ls
-   - allure generate target/surefire-reports --clean -o allure-report
+   - allure generate target/surefire-reports/* --clean -o allure-report
   when: always
   allow_failure: true
