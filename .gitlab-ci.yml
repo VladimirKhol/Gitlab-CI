@@ -20,7 +20,7 @@ Allure report:
   stage: allure
   script: 
     - mvn allure:serve
-    - ls target
+    - ls
   artifacts:
     paths:
       - target/site/surefire-reports/*
