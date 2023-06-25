@@ -15,13 +15,13 @@ Test:
   artifacts:
     when: always
     paths:
-      - /builds/testname40425/ProjectTest/target/allure-result
+      - target/site/allure-result
 Allure report:
   stage: allure
   script: 
     - mvn allure:serve
   artifacts:
     paths:
-      - builds/testname40425/ProjectTest/target/surefire-reports/*
+      - target/site/surefire-reports/*
     when: always
     expire_in: 1 h
