@@ -18,9 +18,9 @@ Test:
   #     - target/allure-result
 Allure report:
   stage: allure
-  script: 
+  script:
     - mvn allure:serve
-    - ls target/site/allure-maven-plugin/
+    - ls target/
   artifacts:
     paths:
       - target/site/allure-maven-plugin/*
