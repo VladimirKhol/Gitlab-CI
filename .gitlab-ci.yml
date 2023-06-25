@@ -11,7 +11,9 @@ Integration tests with Allure:
   allow_failure: true
   script:
     - mvn clean test -Dsurefire.suiteXmlFiles=testng.xml
+  after_script:
     - mvn allure:serve
   artifacts:
+    when: always
     paths:
       - target/surefire-reports/*
