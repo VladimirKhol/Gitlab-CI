@@ -19,10 +19,10 @@ Test:
     paths:
       - target/allure-report
     expire_in: 1 h
+
 Report:
   stage: Report
-  only:
-    - master
+  image: pradapjackie/allure-reports-generation:1.0
   script:
     - mkdir public
     - mv target/allure-report/* public
