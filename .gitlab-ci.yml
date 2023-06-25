@@ -1,27 +1,19 @@
 image: markhobson/maven-chrome
  
 stages:
-  - ui-test
- 
-variables:
-  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
- 
-ui-test:
-  stage: ui-test
+  - test
+Integration tests with Allure:
+  stage: test
   services:
-    - name: selenium/standalone-chrome:latest 
+    - name: selenium/standalone-chrome:latest
       alias: chrome
   allow_failure: true
- 
-# Run the tests  
   script:
-    - mvn $MAVEN_OPTS clean package
-    - mvn clean test -Dselenide.headless=true
- 
-# Store artifacts
+    - mvn clean test -Dsurefire.suiteXmlFiles=testng.xml
+    - mvn allure:serve
   artifacts:
     when: always
-    name: "report"
+    name: "Report"
     paths:
-    - target/surefire-reports/*
+      - target/surefire-reports/*
     expire_in: 1 h
