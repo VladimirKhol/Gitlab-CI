@@ -18,7 +18,7 @@ Test:
   artifacts:
     when: always
     paths:
-      - target/allure-results
+      - allure-results
     expire_in: 1 h
 
 Generate-allure-result:
@@ -26,8 +26,8 @@ Generate-allure-result:
   image: pradapjackie/allure-reports-generation:1.0
   artifacts:
     paths:
-     - target/allure-results
-     - target/allure-report
+     - allure-results
+     - allure-report
     when: always
     expire_in: 1 days
   script:
