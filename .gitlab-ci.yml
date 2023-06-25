@@ -2,6 +2,7 @@ image: markhobson/maven-chrome
  
 stages:
   - Test
+  - Generate-allure-report
 
 Test:
   stage: Test
@@ -21,7 +22,7 @@ Test:
     expire_in: 1 h
 
 Generate-allure-result:
-  stage: generate-allure-report
+  stage: Generate-allure-report
   image: pradapjackie/allure-reports-generation:1.0
   artifacts:
     paths:
