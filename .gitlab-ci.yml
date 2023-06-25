@@ -23,11 +23,11 @@ Report:
   artifacts:
     when: always
     paths:
-     - allure-results
+     - target/surefire-reports
      - allure-report
     expire_in: 1 h
   script:
    - ls
-   - allure generate allure-results --clean -o allure-report
-  when: manual
+   - allure generate target/surefire-reports --clean -o allure-report
+  when: always
   allow_failure: true
