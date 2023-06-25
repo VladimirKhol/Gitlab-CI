@@ -1,6 +1,6 @@
 target/
-allure-results/
 .idea/
+.allure/
 test-output/
 build/
 *.iws
