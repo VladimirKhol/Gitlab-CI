@@ -31,6 +31,7 @@ Generate-allure-result:
     when: always
     expire_in: 1 days
   script:
+    - apt-get install sudo -y
     - sudo apt-get update
     - sudo apt-get upgrade
     - sudo apt-get install maven -y
