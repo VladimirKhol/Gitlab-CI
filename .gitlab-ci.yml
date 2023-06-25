@@ -2,18 +2,26 @@ image: markhobson/maven-chrome
  
 stages:
   - test
+  - allure
 
-Integration tests with Allure:
+Test:
   stage: test
+  allow_failure: true
   services:
     - name: selenium/standalone-chrome:latest
       alias: chrome
-  allow_failure: true
   script:
     - mvn clean test -Dsurefire.suiteXmlFiles=testng.xml
-  after_script:
-    - mvn allure:serve
   artifacts:
     when: always
     paths:
+      - target/allure-result
+Allure report:
+  stage: allure
+  script: 
+    - mvn allure:serve
+  artifacts:
+    paths:
       - target/surefire-reports/*
+    when: always
+    expire_in: 1 h
