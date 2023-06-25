@@ -23,6 +23,6 @@ Allure report:
     - ls target/site/allure-maven-plugin/
   artifacts:
     paths:
-      - target/allure-results/*
+      - target/site/allure-maven-plugin/*
     when: always
     expire_in: 1 h
