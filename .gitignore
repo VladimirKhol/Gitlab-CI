@@ -1,6 +1,5 @@
 target/
 .idea/
-.allure/
 test-output/
 build/
 *.log
