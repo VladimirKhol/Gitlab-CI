@@ -15,7 +15,7 @@ Test:
   artifacts:
     when: always
     paths:
-      - target/site/allure-result
+      - target/allure-result
 Allure report:
   stage: allure
   script: 
@@ -23,6 +23,6 @@ Allure report:
     - ls
   artifacts:
     paths:
-      - target/site/surefire-reports/*
+      - target/allure-results/*
     when: always
     expire_in: 1 h
